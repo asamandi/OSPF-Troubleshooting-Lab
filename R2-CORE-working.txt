@@ -1,0 +1,22 @@
+enable
+configure terminal
+
+hostname R2-CORE
+
+interface g0/0
+description Link_to_R1-HQ
+ip address 10.0.12.2 255.255.255.252
+no shutdown
+
+interface g0/1
+description Link_to_R3-BRANCH
+ip address 10.0.23.2 255.255.255.252
+no shutdown
+
+router ospf 1
+router-id 2.2.2.2
+network 10.0.12.0 0.0.0.3 area 0
+network 10.0.23.0 0.0.0.3 area 0
+
+end
+write memory
