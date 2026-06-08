@@ -1,0 +1,45 @@
+------------------------------------------------------------
+OSPF TROUBLESHOOTING NOTES
+------------------------------------------------------------
+
+Issue:
+PC1 cannot ping PC3.
+
+Root Cause:
+OSPF area mismatch between R2-CORE and R3-BRANCH.
+
+------------------------------------------------------------
+Problem
+------------------------------------------------------------
+
+R2-CORE uses area 0.
+R3-BRANCH uses area 1.
+
+Because the areas do not match, OSPF neighbor relationship fails.
+
+------------------------------------------------------------
+Commands Used
+------------------------------------------------------------
+
+show ip interface brief
+show ip ospf neighbor
+show ip route ospf
+show running-config | section router ospf
+ping 10.0.23.2
+ping 192.168.30.10
+
+------------------------------------------------------------
+Fix
+------------------------------------------------------------
+
+router ospf 1
+ no network 10.0.23.0 0.0.0.3 area 1
+ network 10.0.23.0 0.0.0.3 area 0
+
+------------------------------------------------------------
+Verification
+------------------------------------------------------------
+
+OSPF neighbor becomes FULL.
+OSPF routes appear.
+PC1 can ping PC3.
