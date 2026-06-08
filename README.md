@@ -9,9 +9,11 @@
 ### Goal:
 - Restore connectivity between PC1 and PC3.
 
+------------------------------------
 ### Topology
 - PC1 --- SW1 --- R1-HQ --- R2-CORE --- R3-BRANCH --- SW3 --- PC3
 
+------------------------------------
 ### IP Addressing
 PC1:
 - IP Address: 192.168.10.10/24
@@ -33,6 +35,7 @@ PC3:
 - IP Address: 192.168.30.10/24
 - Default Gateway: 192.168.30.1
 
+------------------------------------
 ### Problem
 - PC1 cannot ping PC3.
 - OSPF routes are missing.
@@ -50,6 +53,7 @@ Broken Line
 Result:
 - OSPF neighbor does not form.
 
+------------------------------------
 ### Fix
 - Correct the OSPF area on R3-BRANCH.
 
@@ -57,6 +61,7 @@ router ospf 1
  - no network 10.0.23.0 0.0.0.3 area 1
  - network 10.0.23.0 0.0.0.3 area 0
 
+------------------------------------
 ### Verification Commands
 - show ip interface brief
 - show ip ospf neighbor
@@ -66,6 +71,7 @@ router ospf 1
 - ping 192.168.30.10
 - traceroute 192.168.30.10
 
+------------------------------------
 ### Expected Result
 - Interfaces are up/up.
 - R3-BRANCH can ping R2-CORE.
@@ -74,6 +80,7 @@ router ospf 1
 - PC1 can ping PC3.
 - PC3 can ping PC1.
 
+------------------------------------
 ### Skills Demonstrated
 - OSPF troubleshooting
 - Neighbor adjacency verification
