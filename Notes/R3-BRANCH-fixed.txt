@@ -1,0 +1,68 @@
+============================================================
+                  R3-BRANCH | FIXED CONFIG
+                 OSPF Troubleshooting Lab
+============================================================
+
+Status:
+Fixed
+
+Issue Fixed:
+OSPF area mismatch between R2-CORE and R3-BRANCH.
+
+Fix:
+Changed R3-BRANCH OSPF area from area 1 to area 0.
+
+------------------------------------------------------------
+Configuration
+------------------------------------------------------------
+
+hostname R3-BRANCH
+
+interface g0/0
+ description Link_to_R2-CORE
+ ip address 10.0.23.1 255.255.255.252
+ no shutdown
+
+interface g0/1
+ description LAN_to_PC3
+ ip address 192.168.30.1 255.255.255.0
+ no shutdown
+
+router ospf 1
+ router-id 3.3.3.3
+ network 10.0.23.0 0.0.0.3 area 0
+ network 192.168.30.0 0.0.0.255 area 0
+
+------------------------------------------------------------
+Fixed Line
+------------------------------------------------------------
+
+network 10.0.23.0 0.0.0.3 area 0
+
+R2-CORE uses area 0.
+R3-BRANCH now uses area 0.
+
+Result:
+OSPF neighbor forms successfully.
+
+------------------------------------------------------------
+Verification Commands
+------------------------------------------------------------
+
+show ip interface brief
+show ip ospf neighbor
+show ip route ospf
+show running-config | section router ospf
+ping 10.0.23.2
+ping 192.168.10.10
+
+------------------------------------------------------------
+Expected Result
+------------------------------------------------------------
+
+G0/0 is up/up.
+G0/1 is up/up.
+Ping to R2 works.
+OSPF neighbor becomes FULL.
+Remote OSPF routes appear.
+PC1 can ping PC3.
